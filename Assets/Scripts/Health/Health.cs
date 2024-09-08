@@ -14,8 +14,7 @@ public class Health : MonoBehaviour
     public int CurrentValue { get; private set; }
 
     public event Action Died;
-    public event Action<float> IncreasedCurrentValue;
-    public event Action<float> DecreaseCurrentValue;
+    public event Action<float> ValueChanged;
 
     private void Start()
     {
@@ -26,7 +25,7 @@ public class Health : MonoBehaviour
     {
         CurrentValue = _maxValue;
 
-        IncreasedCurrentValue?.Invoke(CurrentValue);
+        ValueChanged?.Invoke(CurrentValue);
     }
 
     public void TakeDamage(int damage)
@@ -37,7 +36,7 @@ public class Health : MonoBehaviour
         CurrentValue = Math.Clamp(CurrentValue - damage, 0, _maxValue);
         _characterRenderer.TakeDamageColor();
 
-        DecreaseCurrentValue?.Invoke(CurrentValue);
+        ValueChanged?.Invoke(CurrentValue);
 
         if (CurrentValue == 0)
         {
@@ -61,7 +60,7 @@ public class Health : MonoBehaviour
             {
                 CurrentValue++;
                 _characterRenderer.RegenerationColor();
-                IncreasedCurrentValue?.Invoke(CurrentValue);
+                ValueChanged?.Invoke(CurrentValue);
             }
             else
             {

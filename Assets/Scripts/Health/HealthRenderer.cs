@@ -6,14 +6,12 @@ public abstract class HealthRenderer : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.DecreaseCurrentValue += ChangeHealthInfo;
-        _health.IncreasedCurrentValue += ChangeHealthInfo; 
+        _health.ValueChanged += ChangeHealthInfo;
     }
 
     private void OnDisable()
     {
-        _health.DecreaseCurrentValue -= ChangeHealthInfo;
-        _health.IncreasedCurrentValue -= ChangeHealthInfo;
+        _health.ValueChanged -= ChangeHealthInfo;
     }
 
     public abstract void ChangeHealthInfo(float currentHealth);

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HealthBarSmothly : HealthRenderer
 {
-    [SerializeField] private float _smoothlyValue;
+    [SerializeField] private float _updateValueSpeed;
 
     private Slider _bar;
     private Coroutine _smoothlyChangeHealthCoroutine;
@@ -21,14 +21,14 @@ public class HealthBarSmothly : HealthRenderer
         if (_smoothlyChangeHealthCoroutine != null)
             StopCoroutine(_smoothlyChangeHealthCoroutine);
 
-        _smoothlyChangeHealthCoroutine = StartCoroutine(SmoothlyChangeHealthBarValue(GetHealthPrecentage(currentHealth)));
+        _smoothlyChangeHealthCoroutine = StartCoroutine(SmoothlyChangeRenderer(GetHealthPrecentage(currentHealth)));
     }
 
-    private IEnumerator SmoothlyChangeHealthBarValue(float currentHealth)
+    private IEnumerator SmoothlyChangeRenderer(float currentHealth)
     {
         while (_bar.value != currentHealth)
         {
-            _bar.value = Mathf.MoveTowards(_bar.value, currentHealth, _smoothlyValue);
+            _bar.value = Mathf.MoveTowards(_bar.value, currentHealth, _updateValueSpeed * Time.deltaTime);
 
             yield return null;
         }
