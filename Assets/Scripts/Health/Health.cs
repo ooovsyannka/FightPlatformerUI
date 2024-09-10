@@ -11,9 +11,14 @@ public class Health : MonoBehaviour
     public event Action Died;
     public event Action<float> ValueChanged;
 
+    private void Start()
+    {
+        Regenerate(_maxValue);
+    }
+
     public void TakeDamage(float damage)
     {
-        if(CurrentValue <= 0) 
+        if(CurrentValue == 0) 
             return;
 
         if (damage < 0)
