@@ -4,7 +4,7 @@ public class ButtonDamage : SimpleButton
 {
     [SerializeField] private int _damageCount;
 
-    public override void Action()
+    public override void ChangeHealthValue()
     { 
         Health.TakeDamage(_damageCount);
     }

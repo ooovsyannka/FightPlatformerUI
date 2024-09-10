@@ -18,13 +18,13 @@ public abstract class SimpleButton : MonoBehaviour
 
     private void OnEnable()
     {
-        _button.onClick.AddListener(Action);
+        _button.onClick.AddListener(ChangeHealthValue);
     }
 
     private void OnDisable()
     {
-        _button.onClick.RemoveListener(Action);
+        _button.onClick.RemoveListener(ChangeHealthValue);
     }
 
-    public abstract void Action();
+    public abstract void ChangeHealthValue();
 }
