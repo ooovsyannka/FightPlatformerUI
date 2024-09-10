@@ -1,40 +1,25 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private int _maxValue;
-    [SerializeField] private CharacterRenderer _characterRenderer;
-
-    private float _regenerationDelay = 0.5f;
-    private Coroutine _regenerationDelayCoroutine;
 
     public int MaxValue { get { return _maxValue; } }   
-    public int CurrentValue { get; private set; }
+    protected float CurrentValue { get; private set; }
 
     public event Action Died;
     public event Action<float> ValueChanged;
 
-    private void Start()
+    public void TakeDamage(float damage)
     {
-        Recovery();
-    }
+        if(CurrentValue <= 0) 
+            return;
 
-    public void Recovery()
-    {
-        CurrentValue = _maxValue;
-
-        ValueChanged?.Invoke(CurrentValue);
-    }
-
-    public void TakeDamage(int damage)
-    {
         if (damage < 0)
             damage *= -1;
 
         CurrentValue = Math.Clamp(CurrentValue - damage, 0, _maxValue);
-        _characterRenderer.TakeDamageColor();
 
         ValueChanged?.Invoke(CurrentValue);
 
@@ -44,30 +29,12 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Regeneration(int desiredCount)
+    public void Regenerate(float desiredCount)
     {
-        if (_regenerationDelayCoroutine != null)
-            StopCoroutine(_regenerationDelayCoroutine);
-
-        _regenerationDelayCoroutine = StartCoroutine(RegenerationDelay(desiredCount));
-    }
-
-    private IEnumerator RegenerationDelay(int desiredCount)
-    {
-        for (int i = 0; i < desiredCount; i++)
+        if (CurrentValue < _maxValue)
         {
-            if (CurrentValue < _maxValue)
-            {
-                CurrentValue++;
-                _characterRenderer.RegenerationColor();
-                ValueChanged?.Invoke(CurrentValue);
-            }
-            else
-            {
-                StopCoroutine(_regenerationDelayCoroutine);
-            }
-
-            yield return new WaitForSeconds(_regenerationDelay);
+            CurrentValue += desiredCount;
+            ValueChanged?.Invoke(CurrentValue);
         }
     }
 }

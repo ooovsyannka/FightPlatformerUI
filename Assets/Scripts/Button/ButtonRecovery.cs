@@ -1,8 +1,11 @@
-﻿public class ButtonRecovery : SimpleButton
+﻿using UnityEngine;
+
+public class ButtonRecovery : SimpleButton
 {
+    [SerializeField] private float _regenCount;
+
     public override void Action()
     {
-        Health.Recovery();
+        Health.Regenerate(_regenCount);
     }
 }
-

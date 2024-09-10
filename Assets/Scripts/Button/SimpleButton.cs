@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
+
 public abstract class SimpleButton : MonoBehaviour 
 {
     [SerializeField] private Health _health;
